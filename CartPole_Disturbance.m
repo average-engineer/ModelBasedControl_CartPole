@@ -91,7 +91,7 @@ Kp = [1,5;
 Kd = [5,1;
     -1,5];
 %% Dynamic Response of the Closed Loop System
-[t,w] = ode45(@(t,w)ModelBasedControl_wDisturbance(t,w,M_mat,K_mat,Kc,Kp,Kd,A,B,controller,act), t_span, w_0);
+[t,w] = ode45(@(t,w)ModelBasedControlSSR_wDisturbance(t,w,M_mat,K_mat,Kc,Kp,Kd,A,B,controller,act), t_span, w_0);
 
 % Closed Loop Control System dynamics and control law
 switch act

@@ -1,4 +1,4 @@
-function [dw_dt] = ModelBasedControl_SSR(t,w,M_mat,K_mat,Kc,Kp,Kd,A,B,controller,act)
+function [dw_dt] = ModelBasedControlSSR_wDisturbance(t,w,M_mat,K_mat,Kc,Kp,Kd,A,B,controller,act)
 
 % State Space Model for a Model Based Control System Closed Loop
 % w: State Vector
@@ -15,8 +15,17 @@ function [dw_dt] = ModelBasedControl_SSR(t,w,M_mat,K_mat,Kc,Kp,Kd,A,B,controller
 % u = -M*Kc*X + K*X + f
 % u = -M_mat*Kc*[w(1);w(2)] + K_mat*[w(1);w(2)] + f;
 % dw_dt = A*w + B*u
-% dw_dt = A_cl*w + B*f; if any external disturbance is present
-% dw_dt = A_cl*w for no external disturbance
+% dw_dt = A_cl*w + B*f;
+
+if t<5
+    f = [0;0];
+elseif t>=5 && t<= 5 + (1/5)
+    f = [5;0];
+else
+    f = [0;0];
+end
+
+% f = [50*sin(100*t);0];
 
 % act: variable defining the type of actuation in the system
 % controller: variable defining the kind of controller used in the system
@@ -24,7 +33,7 @@ function [dw_dt] = ModelBasedControl_SSR(t,w,M_mat,K_mat,Kc,Kp,Kd,A,B,controller
 % Closed Loop State Weighing Matrix
 switch controller
     case 'General'
-        A_cl = A + [B*(K_mat - M_mat*Kc), zeros(4,2)];
+        A_cl = A + [B*(K_mat - M_mat*Kc), zeros(4,2)];;
     case 'PD'
         switch act
             case 'Both'
@@ -36,5 +45,5 @@ switch controller
         end      
 end
 
-dw_dt = A_cl*w;
+dw_dt = A_cl*w + B*f;
 end
