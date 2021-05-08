@@ -17,15 +17,15 @@ function [dw_dt] = ModelBasedControlSSR_wDisturbance(t,w,M_mat,K_mat,Kc,Kp,Kd,A,
 % dw_dt = A*w + B*u
 % dw_dt = A_cl*w + B*f;
 
-if t<5
-    f = [0;0];
-elseif t>=5 && t<= 5 + (1/5)
-    f = [5;0];
-else
-    f = [0;0];
-end
+% if t<5
+%     f = [0;0];
+% elseif t>=5 && t<= 5 + (1/5)
+%     f = [5;0];
+% else
+%     f = [0;0];
+% end
 
-% f = [50*sin(100*t);0];
+f = [5*sin(10*t);0];
 
 % act: variable defining the type of actuation in the system
 % controller: variable defining the kind of controller used in the system
