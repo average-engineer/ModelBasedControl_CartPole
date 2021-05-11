@@ -24,7 +24,7 @@ for i = 1:max(size(w))
     h2 = plot([xc,xb],[yc,yb],'r','Linewidth',2);
     
     % Pausing for some time before starting the next instant (frame rate)
-    pause(0.1)
+    pause(0.01)
     
     % deleting each plot/drawing for this instant
     delete(h1)

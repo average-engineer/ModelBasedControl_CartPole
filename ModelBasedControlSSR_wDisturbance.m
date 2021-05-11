@@ -25,7 +25,8 @@ function [dw_dt] = ModelBasedControlSSR_wDisturbance(t,w,M_mat,K_mat,Kc,Kp,Kd,A,
 %     f = [0;0];
 % end
 
-f = [5*sin(10*t);0];
+% f = [5*sin(10*t);0];
+f = [5;0];    
 
 % act: variable defining the type of actuation in the system
 % controller: variable defining the kind of controller used in the system

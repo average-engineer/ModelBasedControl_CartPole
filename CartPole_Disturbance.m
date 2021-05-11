@@ -44,7 +44,19 @@ F = 5;
 
 % Impulse Disturbance force
 % f_dist = ImpulseForce(t_span,a,F,dt);
-f_dist = 5*sin(10*t_span);
+
+% Harmonic Disturbance Force
+% for i = 1:length(t_span)
+%     f_dist(:,i) = zeros(2,1);
+%     f_dist(1,i) = 5*sin(10*t_span(i));
+% end
+
+% Static Disturbance
+for i = 1:length(t_span)
+    f_dist(:,i) = zeros(2,1);
+    f_dist(1,i) = 5;
+end
+
 %% Type of actuation provide to Cart Pole plant
 % Both cart and pole joint are actuated
 act = 'Both';
@@ -154,7 +166,7 @@ grid on
 
 %% Distrubance Force
 figure
-plot(t_span,f_dist,'linewidth',2)
+plot(t_span,f_dist(1,:),'linewidth',2)
 title('Disturbance Force (N)')
 xlabel('Time(s)')
 grid on
