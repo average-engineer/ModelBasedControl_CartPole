@@ -44,7 +44,7 @@ F = 5;
 
 % Impulse Disturbance force
 % f_dist = ImpulseForce(t_span,a,F,dt);
-
+    
 % Harmonic Disturbance Force
 % for i = 1:length(t_span)
 %     f_dist(:,i) = zeros(2,1);
