@@ -51,7 +51,7 @@ w_0 = [0;0.5;0;0];
 
 %% Disturbance force on the control system
 % variable for deciding the type of disturbance force
-dist = 'Harmonic'; % None/Impulse/Harmonic/Static
+dist = 'Impulse'; % None/Impulse/Harmonic/Static
 
 switch dist
     case 'None'
@@ -81,7 +81,7 @@ switch dist
     case 'Static'
         for i = 1:length(t_span)
             f_dist(:,i) = zeros(2,1);
-            f_dist(1,i) = 5;
+            f_dist(1,i) = 200;
         end
 end
 

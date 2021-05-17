@@ -19,7 +19,7 @@ switch disturbance
         if t<5
             f = [0;0]; 
         elseif t>=5 && t<= 5 + (1/5)
-            f = [5;0];
+            f = [200;0];
         else
             f = [0;0];
         end
