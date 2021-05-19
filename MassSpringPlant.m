@@ -35,7 +35,7 @@ w_0 = [2;0];
 
 %% Disturbance Force
 % variable for deciding the type of disturbance force
-dist = 'Impulse'; % None/Impulse/Harmonic/Static
+dist = 'None'; % None/Impulse/Harmonic/Static
 
 switch dist
     case 'None'
