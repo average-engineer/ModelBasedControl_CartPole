@@ -35,7 +35,7 @@ w_0 = [2;0];
 
 %% Disturbance Force
 % variable for deciding the type of disturbance force
-dist = 'None'; % None/Impulse/Harmonic/Static
+dist = 'Impulse'; % None/Impulse/Harmonic/Static
 
 switch dist
     case 'None'
@@ -53,7 +53,7 @@ switch dist
         
         % Magnitude of disturbance force
         F = 200;
-        f_dist = ImpulseForce(t_span,a,F,dt);
+        f_dist = ImpulseForce(t_span,a,F,dt,dof);
         
     case 'Harmonic'
         % Harmonic Disturbance Force
