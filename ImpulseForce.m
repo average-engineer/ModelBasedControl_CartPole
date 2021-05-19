@@ -1,4 +1,4 @@
-function F_Impulse = ImpulseForce(t,a,F,dt)
+function F_Impulse = ImpulseForce(t,a,F,dt,n)
 
 % Function for representing any arbrtitrary force as impulse force
 % t: simulation time vector
@@ -7,10 +7,11 @@ function F_Impulse = ImpulseForce(t,a,F,dt)
 % F: the magnitude of the impulse felt
 % The function is unit impulse function where the duration of the impulse
 % force is the inverse of the impulse force magnitude
+% n: number of independent DOFs of the system
 
 % The element in time vector corresponding to start of impulse (a)
 for i = 1:length(t)
-    if t(i) == a;
+    if t(i) == a
         inst = i;
         break;
     end
@@ -23,7 +24,7 @@ dur = 1/F;
 dur_num = ceil(dur/dt);
 
 for ii = 1:length(t)    
-    F_Impulse(:,ii) = zeros(2,1);
+    F_Impulse(:,ii) = zeros(n,1);
     if ii >= inst && ii <= inst + dur_num
         F_Impulse(1,ii) = F;
     end

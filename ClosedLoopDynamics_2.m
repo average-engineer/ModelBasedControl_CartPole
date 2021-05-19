@@ -1,4 +1,4 @@
-function [dw_dt] = ClosedLoopDynamics_2(t,w,M,B,Kp,Kd,disturbance)
+function [dw_dt] = ClosedLoopDynamics_2(t,w,M,Kp,Kd,disturbance,n)
 
 % State Space model of the closed loop dynamic equation obtained for
 % control partitioning in model based control design of a Regulator
@@ -13,29 +13,28 @@ function [dw_dt] = ClosedLoopDynamics_2(t,w,M,B,Kp,Kd,disturbance)
 % Disturbance Force
 switch disturbance
     case 'None'
-        f = [0;0];
+        f = zeros(n,1);
         
     case 'Impulse'
-        if t<5
-            f = [0;0]; 
-        elseif t>=5 && t<= 5 + (1/5)
-            f = [200;0];
-        else
-            f = [0;0];
+        f = zeros(n,1);
+        if t>=5 && t<= 5 + (1/5)
+            f(1) = 200;
         end
         
     case 'Harmonic'
-        f = [5*sin(10*t);0];
+        f = zeros(n,1);
+        f(1) = 5*sin(10*t);
         
     case 'Static'
-        f = [5;0];       
+        f = zeros(n,1);
+        f(1) = 5;       
 end
 
 % Closed Loop State weighing matrix
-A_cl = [zeros(size(Kp)),eye(size(Kp));-Kp,-Kd];
+A_cl = [zeros(n,n),eye(n,n);-Kp,-Kd];
 
 % Control cost matrix for this state space model
-B = [zeros(2,2);M\eye(2,2)];
+B = [zeros(n,n);M\eye(size(M))];
 
 % State Space equation
 dw_dt = A_cl*w + B*f;

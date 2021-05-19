@@ -11,6 +11,10 @@ format bank
 % is made use of
 
 %% System Parameters
+
+% Degrees of freedom of the system
+dof = 2;
+
 % Cart mass
 M = 10;%kg
 
@@ -32,10 +36,10 @@ K_mat = [0,0;
 
 % Coefficient matrices
 % Open Loop State weighing matrix
-A = [zeros(2,2),eye(2,2);-M_mat\K_mat,zeros(2,2)];
+A = [zeros(dof,dof),eye(dof,dof);-M_mat\K_mat,zeros(dof,dof)];
 
 % Control Cost Matrix
-B = [zeros(size(M_mat)) ; M_mat\eye(size(M_mat))];
+B = [zeros(dof,dof);M_mat\eye(size(M_mat))];
 
 % Acceleration due to gravity
 g = 9.81; %m/s^2
@@ -44,7 +48,7 @@ g = 9.81; %m/s^2
 dt = 0.01;
 
 % Time Vector
-t_span = [0:dt:20];
+t_span = [0:dt:50];
 
 % Initial Conditions
 w_0 = [0;0.5;0;0];
@@ -56,7 +60,7 @@ dist = 'Impulse'; % None/Impulse/Harmonic/Static
 switch dist
     case 'None'
         % No external disturbance force on the system
-        f_dist = zeros(2,1,length(t_span));
+        f_dist = zeros(dof,1,length(t_span));
     
     case 'Impulse'
         % The disturbance force is modelled as an unit impulse function force
@@ -68,19 +72,19 @@ switch dist
         a = 5;
         
         % Magnitude of disturbance force
-        F = 5;
-        f_dist = ImpulseForce(t_span,a,F,dt);
+        F = 200;
+        f_dist = ImpulseForce(t_span,a,F,dt,dof);
         
     case 'Harmonic'
         % Harmonic Disturbance Force
         for i = 1:length(t_span)
-            f_dist(:,i) = zeros(2,1);
+            f_dist(:,i) = zeros(dof,1);
             f_dist(1,i) = 5*sin(10*t_span(i));
         end
         
     case 'Static'
         for i = 1:length(t_span)
-            f_dist(:,i) = zeros(2,1);
+            f_dist(:,i) = zeros(dof,1);
             f_dist(1,i) = 200;
         end
 end
@@ -105,14 +109,14 @@ Kd = [5,1;-1,5];
 % replace u by u = M(-KpX - KdXdot + fdist) + KX (control law for model
 % based regulator design)
 
-[t,w1] = ode45(@(t,w1)ClosedLoopDynamics_1(t,w1,M_mat,K_mat,A,B,Kp,Kd,dist),t_span,w_0);
+[t,w1] = ode45(@(t,w1)ClosedLoopDynamics_1(t,w1,M_mat,K_mat,A,B,Kp,Kd,dist,dof),t_span,w_0);
 
 % Second Method
 % The linear closed loop dynamic equation obtained for regulator design
 % using control partitioning method:
 % X_ddot + KdX_dot + KpX = f_dist
 
-[t,w2] = ode45(@(t,w2)ClosedLoopDynamics_2(t,w2,M_mat,B,Kp,Kd,dist),t_span,w_0);
+[t,w2] = ode45(@(t,w2)ClosedLoopDynamics_2(t,w2,M_mat,Kp,Kd,dist,dof),t_span,w_0);
 
 % Plotting the two types of responses
 
