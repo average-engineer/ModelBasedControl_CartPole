@@ -9,7 +9,7 @@ function [dwdt] = ClosedLoopDyn_SingleAct(t,w,Kp,Kd,n,A,B,M,C,K)
 % dwdt = Acl*w;
 
 % Input Force
-u = [[1,0]*(M*(-Kp*[w(1);w(2)] - Kd*[w(3);w(4)]) + C*([w(3);w(4)]) + K*([w(1);w(2)]));0];
+% u = [[1,0]*(M*(-Kp*[w(1);w(2)] - Kd*[w(3);w(4)]) + C*([w(3);w(4)]) + K*([w(1);w(2)]));0];
 
 dwdt = A*w + B*u;
 end
